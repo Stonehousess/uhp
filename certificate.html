@@ -71,47 +71,67 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    // Show today's date
-    document.getElementById("date").textContent = new Date().toLocaleDateString("en-UK", {
-      day: 'numeric', month: 'long', year: 'numeric'
+  // Show today's date
+  document.getElementById("date").textContent = new Date().toLocaleDateString("en-UK", {
+    day: 'numeric', month: 'long', year: 'numeric'
+  });
+
+  async function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const today = new Date().toLocaleDateString("en-UK", {
+      day: "numeric", month: "long", year: "numeric"
     });
 
-    // Download PDF
-    function downloadPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
+    // Load the logo image and convert to base64
+    const img = new Image();
+    img.src = "logo.png";
+    img.crossOrigin = "anonymous";
 
-      const today = new Date().toLocaleDateString("en-UK", {
-        day: "numeric", month: "long", year: "numeric"
-      });
+    img.onload = function () {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      const imgData = canvas.toDataURL("image/png");
+
+      // Now generate the PDF
+      doc.addImage(imgData, "PNG", 80, 10, 50, 30); // (x, y, width, height)
 
       doc.setFont("Helvetica", "bold");
       doc.setFontSize(20);
-      doc.text("Certificate of Completion", 105, 30, null, null, "center");
+      doc.text("Certificate of Completion", 105, 50, null, null, "center");
 
       doc.setFontSize(14);
-      doc.text("UHP Training – Respecting Gender Identity in Care", 105, 40, null, null, "center");
+      doc.text("UHP Training – Respecting Gender Identity in Care", 105, 60, null, null, "center");
 
       doc.setFont("Helvetica", "normal");
       doc.setFontSize(12);
-      doc.text("Awarded to: Staff Member", 105, 60, null, null, "center");
-      doc.text(`Date: ${today}`, 105, 70, null, null, "center");
+      doc.text("Awarded to: Staff Member", 105, 80, null, null, "center");
+      doc.text(`Date: ${today}`, 105, 90, null, null, "center");
 
-      doc.setFontSize(11);
       const points = [
         "• Completed training on transgender-inclusive care.",
         "• Engaged with key learning on gender identity and patient rights.",
         "• Reinforced NHS confidentiality and anti-discrimination duties.",
         "• Committed to respectful, informed practice moving forward."
       ];
-      let y = 90;
+
+      let y = 110;
       points.forEach(line => {
         doc.text(line, 20, y);
         y += 10;
       });
 
       doc.save("UHP-Training-Certificate.pdf");
-    }
-  </script>
+    };
+
+    img.onerror = function () {
+      alert("❌ Logo failed to load. Please check the 'logo.png' file is in the correct folder.");
+    };
+  }
+</script>
 </body>
 </html>
