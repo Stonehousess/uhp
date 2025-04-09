@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UHP Web Training</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .certificate-container {
+      width: 80%;
+      max-width: 800px;
+      padding: 2rem;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      background-color: #fdfdfd;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-size: 20px;
+      margin-bottom: 1rem;
+      color: #555;
+    }
+    ul {
+      text-align: left;
+      max-width: 600px;
+      margin: 1rem auto;
+    }
+    button {
+      margin-top: 2rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 16px;
+      border: none;
+      background-color: #0078D7;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="certificate-container" id="certificate">
+    <h1>Certificate of Completion – UHP Training</h1>
+    <h2>Respecting Gender Identity in Care – Plymouth Hospitals</h2>
+    <p><strong>Awarded to:</strong> Staff Member</p>
+    <ul>
+      <li>Completed 10-question web-based identity training</li>
+      <li>Engaged with key NHS equality and care principles</li>
+      <li>Viewed final educational video content</li>
+    </ul>
+    <p><strong>Date:</strong> <span id="date"></span></p>
+    <button onclick="downloadCertificate()">Download Certificate</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+  <script>
+    document.getElementById('date').textContent = new Date().toLocaleDateString();
+
+    function downloadCertificate() {
+      const element = document.getElementById('certificate');
+      const opt = {
+        margin:       0.5,
+        filename:     'UHP_Certificate.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save();
+    }
+  </script>
+</body>
+</html>

@@ -9,25 +9,56 @@
 </head>
 <body>
   <h1>Respecting Gender Identity in Care – Plymouth Hospitals</h1>
+
   <div id="quiz-container">
     <div id="question-box">
       <h2 id="question"></h2>
       <div id="options"></div>
     </div>
+
     <div id="feedback-box" class="hidden">
       <p id="answer"></p>
       <p id="explanation"></p>
       <ul id="takeaway"></ul>
       <button onclick="nextQuestion()">Next</button>
     </div>
+
     <div id="completion-box" class="hidden">
       <h2>Congratulations!</h2>
       <p>You’ve completed the training.</p>
-      <iframe width="560" height="315" src="https://www.youtube.com/watch?v=_Gyoq6tdlsE" frameborder="0" allowfullscreen></iframe>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/_Gyoq6tdlsE" frameborder="0" allowfullscreen></iframe>
       <br />
-      <a href="certificate.pdf" download>Download Certificate</a>
+      <button onclick="generateCertificate()">Download Certificate</button>
     </div>
   </div>
+
   <script src="script.js"></script>
+  <script>
+    function generateCertificate() {
+      const today = new Date().toLocaleDateString();
+      const certificateContent = `
+        Certificate of Completion – UHP Training
+        Respecting Gender Identity in Care – Plymouth Hospitals
+
+        Awarded to: Staff Member
+
+        ✅ Completed 10-question training module
+        ✅ Watched supplementary educational video
+        ✅ Committed to respectful, informed patient care
+
+        Date of Completion: ${today}
+
+        This certificate affirms basic awareness of respectful transgender care.
+      `;
+
+      const blob = new Blob([certificateContent], { type: "application/octet-stream" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "UHP_Training_Certificate.txt";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
 </body>
 </html>
