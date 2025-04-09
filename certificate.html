@@ -55,83 +55,84 @@
 </head>
 <body>
   <div class="certificate">
-    <img src="logo.png" alt="UHP Logo" class="logo" />
+    <img src="logo.png" alt="UHP Logo" width="100" style="margin-bottom: 20px;" />
     <h1>Certificate of Completion</h1>
     <h2>UHP Training – Respecting Gender Identity in Care</h2>
     <p><strong>Awarded to:</strong> Staff Member</p>
     <p><strong>Date:</strong> <span id="date"></span></p>
     <ul>
-      <li>• Completed training on transgender-inclusive care.</li>
-      <li>• Engaged with key learning on gender identity and patient rights.</li>
-      <li>• Reinforced NHS confidentiality and anti-discrimination duties.</li>
-      <li>• Committed to respectful, informed practice moving forward.</li>
+      <li>• Completed training on transgender-inclusive care</li>
+      <li>• Engaged with key learning on gender identity and patient rights</li>
+      <li>• Reinforced NHS confidentiality and anti-discrimination duties</li>
+      <li>• Committed to respectful, informed practice moving forward</li>
     </ul>
-    <button class="download-button" onclick="downloadPDF()">Download Certificate as PDF</button>
+
+    <div>
+      <button class="download-button" onclick="downloadPDF()">Download Certificate as PDF</button>
+      <button class="download-button" onclick="window.print()">Print / View Certificate</button>
+    </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-  // Show today's date
-  document.getElementById("date").textContent = new Date().toLocaleDateString("en-UK", {
-    day: 'numeric', month: 'long', year: 'numeric'
-  });
-
-  async function downloadPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    const today = new Date().toLocaleDateString("en-UK", {
-      day: "numeric", month: "long", year: "numeric"
+    document.getElementById("date").textContent = new Date().toLocaleDateString("en-UK", {
+      day: 'numeric', month: 'long', year: 'numeric'
     });
 
-    // Load the logo image and convert to base64
-    const img = new Image();
-    img.src = "logo.png";
-    img.crossOrigin = "anonymous";
+    async function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
 
-    img.onload = function () {
-      const canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
-      const imgData = canvas.toDataURL("image/png");
-
-      // Now generate the PDF
-      doc.addImage(imgData, "PNG", 80, 10, 50, 30); // (x, y, width, height)
-
-      doc.setFont("Helvetica", "bold");
-      doc.setFontSize(20);
-      doc.text("Certificate of Completion", 105, 50, null, null, "center");
-
-      doc.setFontSize(14);
-      doc.text("UHP Training – Respecting Gender Identity in Care", 105, 60, null, null, "center");
-
-      doc.setFont("Helvetica", "normal");
-      doc.setFontSize(12);
-      doc.text("Awarded to: Staff Member", 105, 80, null, null, "center");
-      doc.text(`Date: ${today}`, 105, 90, null, null, "center");
-
-      const points = [
-        "• Completed training on transgender-inclusive care.",
-        "• Engaged with key learning on gender identity and patient rights.",
-        "• Reinforced NHS confidentiality and anti-discrimination duties.",
-        "• Committed to respectful, informed practice moving forward."
-      ];
-
-      let y = 110;
-      points.forEach(line => {
-        doc.text(line, 20, y);
-        y += 10;
+      const today = new Date().toLocaleDateString("en-UK", {
+        day: "numeric", month: "long", year: "numeric"
       });
 
-      doc.save("UHP-Training-Certificate.pdf");
-    };
+      const img = new Image();
+      img.src = "logo.png";
+      img.crossOrigin = "anonymous";
 
-    img.onerror = function () {
-      alert("❌ Logo failed to load. Please check the 'logo.png' file is in the correct folder.");
-    };
-  }
-</script>
+      img.onload = function () {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        const imgData = canvas.toDataURL("image/png");
+
+        doc.addImage(imgData, "PNG", 80, 10, 50, 30);
+
+        doc.setFont("Helvetica", "bold");
+        doc.setFontSize(20);
+        doc.text("Certificate of Completion", 105, 50, null, null, "center");
+
+        doc.setFontSize(14);
+        doc.text("UHP Training – Respecting Gender Identity in Care", 105, 60, null, null, "center");
+
+        doc.setFont("Helvetica", "normal");
+        doc.setFontSize(12);
+        doc.text("Awarded to: Staff Member", 105, 80, null, null, "center");
+        doc.text(`Date: ${today}`, 105, 90, null, null, "center");
+
+        const points = [
+          "• Completed training on transgender-inclusive care.",
+          "• Engaged with key learning on gender identity and patient rights.",
+          "• Reinforced NHS confidentiality and anti-discrimination duties.",
+          "• Committed to respectful, informed practice moving forward."
+        ];
+
+        let y = 110;
+        points.forEach(line => {
+          doc.text(line, 20, y);
+          y += 10;
+        });
+
+        doc.save("UHP-Training-Certificate.pdf");
+      };
+
+      img.onerror = function () {
+        alert("❌ Logo failed to load. Please ensure 'logo.png' is in the same folder.");
+      };
+    }
+  </script>
 </body>
 </html>
