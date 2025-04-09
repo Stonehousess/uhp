@@ -2,84 +2,115 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UHP Web Training</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Certificate of Completion</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <style>
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
-      background: white;
+      background-color: white;
+      color: #333;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-    }
-    .certificate-container {
-      width: 80%;
-      max-width: 800px;
       padding: 2rem;
-      border: 2px solid #ccc;
-      border-radius: 12px;
-      background-color: #fdfdfd;
       text-align: center;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .certificate {
+      border: 4px solid #ccc;
+      padding: 2rem;
+      max-width: 800px;
+      border-radius: 16px;
+      background-color: #fdfdfd;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .logo {
+      width: 120px;
+      margin-bottom: 1.5rem;
     }
     h1 {
-      font-size: 24px;
-      margin-bottom: 1rem;
-    }
-    h2 {
-      font-size: 20px;
-      margin-bottom: 1rem;
-      color: #555;
+      margin-bottom: 0.5rem;
     }
     ul {
       text-align: left;
       max-width: 600px;
       margin: 1rem auto;
+      padding-left: 1.5rem;
     }
-    button {
+    .download-button {
       margin-top: 2rem;
       padding: 0.75rem 1.5rem;
-      font-size: 16px;
-      border: none;
-      background-color: #0078D7;
+      background-color: #005eb8;
       color: white;
+      border: none;
       border-radius: 6px;
       cursor: pointer;
+      font-size: 1rem;
+    }
+    .download-button:hover {
+      background-color: #003f87;
     }
   </style>
 </head>
 <body>
-  <div class="certificate-container" id="certificate">
-    <img src="logo.png" alt="UHP Logo" style="width: 100px; margin-bottom: 1rem;" />
-    <h1>Certificate of Completion – UHP Training</h1>
-    <h2>Respecting Gender Identity in Care – Plymouth Hospitals</h2>
+  <div class="certificate">
+    <img src="logo.png" alt="UHP Logo" class="logo" />
+    <h1>Certificate of Completion</h1>
+    <h2>UHP Training – Respecting Gender Identity in Care</h2>
     <p><strong>Awarded to:</strong> Staff Member</p>
-    <ul>
-      <li>Completed 10-question web-based identity training</li>
-      <li>Engaged with key NHS equality and care principles</li>
-      <li>Viewed final educational video content</li>
-    </ul>
     <p><strong>Date:</strong> <span id="date"></span></p>
-    <button onclick="downloadCertificate()">Download Certificate</button>
+    <ul>
+      <li>• Completed training on transgender-inclusive care.</li>
+      <li>• Engaged with key learning on gender identity and patient rights.</li>
+      <li>• Reinforced NHS confidentiality and anti-discrimination duties.</li>
+      <li>• Committed to respectful, informed practice moving forward.</li>
+    </ul>
+    <button class="download-button" onclick="downloadPDF()">Download Certificate as PDF</button>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    document.getElementById('date').textContent = new Date().toLocaleDateString();
+    // Show today's date
+    document.getElementById("date").textContent = new Date().toLocaleDateString("en-UK", {
+      day: 'numeric', month: 'long', year: 'numeric'
+    });
 
-    function downloadCertificate() {
-      const element = document.getElementById('certificate');
-      const opt = {
-        margin:       0.5,
-        filename:     'UHP_Certificate.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
-        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-      };
-      html2pdf().set(opt).from(element).save();
+    // Download PDF
+    function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const today = new Date().toLocaleDateString("en-UK", {
+        day: "numeric", month: "long", year: "numeric"
+      });
+
+      doc.setFont("Helvetica", "bold");
+      doc.setFontSize(20);
+      doc.text("Certificate of Completion", 105, 30, null, null, "center");
+
+      doc.setFontSize(14);
+      doc.text("UHP Training – Respecting Gender Identity in Care", 105, 40, null, null, "center");
+
+      doc.setFont("Helvetica", "normal");
+      doc.setFontSize(12);
+      doc.text("Awarded to: Staff Member", 105, 60, null, null, "center");
+      doc.text(`Date: ${today}`, 105, 70, null, null, "center");
+
+      doc.setFontSize(11);
+      const points = [
+        "• Completed training on transgender-inclusive care.",
+        "• Engaged with key learning on gender identity and patient rights.",
+        "• Reinforced NHS confidentiality and anti-discrimination duties.",
+        "• Committed to respectful, informed practice moving forward."
+      ];
+      let y = 90;
+      points.forEach(line => {
+        doc.text(line, 20, y);
+        y += 10;
+      });
+
+      doc.save("UHP-Training-Certificate.pdf");
     }
   </script>
 </body>
