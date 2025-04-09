@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UHP Web Training</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h1>Respecting Gender Identity in Care – Plymouth Hospitals</h1>
+  <div id="quiz-container">
+    <div id="question-box">
+      <h2 id="question"></h2>
+      <div id="options"></div>
+    </div>
+    <div id="feedback-box" class="hidden">
+      <p id="answer"></p>
+      <p id="explanation"></p>
+      <ul id="takeaway"></ul>
+      <button onclick="nextQuestion()">Next</button>
+    </div>
+    <div id="completion-box" class="hidden">
+      <h2>Congratulations!</h2>
+      <p>You’ve completed the training.</p>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/OdF1W9a-TbU" frameborder="0" allowfullscreen></iframe>
+      <br />
+      <a href="certificate.pdf" download>Download Certificate</a>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
